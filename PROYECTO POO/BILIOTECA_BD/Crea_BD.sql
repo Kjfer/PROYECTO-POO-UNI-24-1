@@ -27,13 +27,13 @@ GO
 
 CREATE TABLE Libros (
     LibroID varchar(9),
-    Título varchar(50) NOT NULL,
-    Autor varchar(50) NOT NULL,
+    Título varchar(100) NOT NULL,
+    Autor varchar(100) NOT NULL,
     Categoria varchar(20) NOT NULL,
     CDU int NOT NULL,
     AñoPublicacion int,
-    Editorial varchar(20),
-    ISBN varchar(20),
+    Editorial varchar(50),
+    ISBN varchar(30),
     Descripcion varchar(100),
     Cantidad int,
     CONSTRAINT PK_Libros PRIMARY KEY (LibroID)
@@ -42,9 +42,9 @@ GO
 
 CREATE TABLE Alumnos (
     CodigoAlumno varchar(9),
-    Nombres varchar(20) NOT NULL,
+    Nombres varchar(30) NOT NULL,
     Apellidos varchar(30) NOT NULL,
-    Correo varchar(30) NOT NULL,
+    Correo varchar(50) NOT NULL,
     Usuario varchar(30) NOT NULL,
     Contraseña varchar(8) NOT NULL,
     FechaRegistro datetime NOT NULL,
@@ -59,7 +59,7 @@ GO
 CREATE TABLE Ejemplares (
     EjemplarID varchar(12),
     LibroID varchar(9) NOT NULL,
-    Estado varchar(10) NOT NULL,
+    Estado varchar(20) NOT NULL,
     CONSTRAINT PK_Ejemplares PRIMARY KEY (EjemplarID),
     CONSTRAINT FK_Ejemplares_LibroID FOREIGN KEY (LibroID) REFERENCES Libros (LibroID),
     CONSTRAINT chk_Ejemplares_Estado CHECK (Estado IN ('DISPONIBLE', 'PRESTADO', 'EN REPARACION', 'PERDIDO'))
@@ -68,8 +68,8 @@ GO
 
 CREATE TABLE Empleados (
     EmpleadoID INT IDENTITY(1,1),
-    Tipo varchar(10) NOT NULL,
-    Nombres varchar(20) NOT NULL,
+    Tipo varchar(20) NOT NULL,
+    Nombres varchar(30) NOT NULL,
     Apellidos varchar(30) NOT NULL,
     Usuario varchar(30) NOT NULL,
     Contraseña varchar(8) NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE Prestamos (
     FechaPrestamo date NOT NULL,
     FechaDevolucion date NOT NULL,
     TipoPrestamo varchar(10) NOT NULL,
-    Estado varchar(10) NOT NULL,
+    Estado varchar(20) NOT NULL,
     CONSTRAINT PK_Prestamos PRIMARY KEY (PrestamoID),
     CONSTRAINT FK_Prestamos_CodigoAlumno FOREIGN KEY (CodigoAlumno) REFERENCES Alumnos (CodigoAlumno),
     CONSTRAINT FK_Prestamos_EjemplarID FOREIGN KEY (EjemplarID) REFERENCES Ejemplares (EjemplarID),
@@ -119,10 +119,10 @@ GO
 CREATE TABLE Penalizaciones (
     PenalizacionID INT IDENTITY(1,1),
     CodigoAlumno varchar(9) NOT NULL,
-    Tipo varchar(20) NOT NULL,
+    Tipo varchar(50) NOT NULL,
     FechaPenalizacion datetime NOT NULL,
     Monto money NOT NULL,
-    Estado varchar(10) NOT NULL,
+    Estado varchar(20) NOT NULL,
     CONSTRAINT PK_Penalizaciones PRIMARY KEY (PenalizacionID),
     CONSTRAINT FK_Penalizaciones_CodigoAlumno FOREIGN KEY (CodigoAlumno) REFERENCES Alumnos (CodigoAlumno),
     CONSTRAINT chk_Penalizaciones_Estado CHECK (Estado IN ('PAGADO', 'NO PAGADO')),
@@ -131,30 +131,25 @@ CREATE TABLE Penalizaciones (
 GO
 
 CREATE TABLE TarifaPenalizaciones (
-    ID INT IDENTITY(1,1),
-    Tipo varchar(20) NOT NULL,
-    Descripcion varchar(50) NOT NULL,
+    Tipo varchar(30) NOT NULL,
+    Descripcion varchar(100) NOT NULL,
     Monto money NOT NULL,
-    CONSTRAINT PK_TarifaPenalizaciones PRIMARY KEY (ID)
 );
 GO
 
 CREATE TABLE Faltas (
-    ID INT IDENTITY(1,1),
-    TiempoDemora varchar(10) NOT NULL,
+    TiempoDemora varchar(30) NOT NULL,
     PesoFalta int NOT NULL,
-    Descripcion varchar(50) NOT NULL,
-    CONSTRAINT PK_Faltas PRIMARY KEY (ID)
+    Descripcion varchar(100) NOT NULL,
 );
 GO
 
 CREATE TABLE Guia (
-    ID INT IDENTITY(1,1),
-    Parametro varchar(10) NOT NULL,
+    Parametro varchar(30) NOT NULL,
     Valor int NOT NULL,
-    CONSTRAINT PK_Guia PRIMARY KEY (ID)
 );
 GO
+
 
 
 
