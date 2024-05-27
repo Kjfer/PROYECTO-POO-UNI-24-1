@@ -1,4 +1,4 @@
-package pe.edu.uni.Biblioteca;
+package pe.edu.uni.BIBLIOTECA;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
