@@ -17,10 +17,10 @@ insert into TarifaPenalizaciones values('PERDIDA DE LIBRO','Pago del precio del 
 
 -- Tabla: Faltas
 
-insert into Faltas values('menos de 1 semana',1,'La falta suma un valor unitario')
-insert into Faltas values('mas de 1 semana',2,'La falta suma un valor doble')
-insert into Faltas values('mas de 3 semanas',3,'La falta suma un valor triple')
-insert into Faltas values('mas de 1 mes',4,'La falta suma un valor cuadruple')
+insert into Faltas values(0,7,1,'La falta suma un valor unitario')
+insert into Faltas values(7,21,2,'La falta suma un valor doble')
+insert into Faltas values(21,35,3,'La falta suma un valor triple')
+insert into Faltas values(35,1000,4,'La falta suma un valor cuadruple')
 
 --Tabla: Empleados
 

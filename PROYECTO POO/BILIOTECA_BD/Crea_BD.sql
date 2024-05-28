@@ -138,7 +138,8 @@ CREATE TABLE TarifaPenalizaciones (
 GO
 
 CREATE TABLE Faltas (
-    TiempoDemora varchar(30) NOT NULL,
+    MinDias int not null,
+	MaxDias int not null,
     PesoFalta int NOT NULL,
     Descripcion varchar(100) NOT NULL,
 );
