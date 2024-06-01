@@ -120,11 +120,13 @@ CREATE TABLE Penalizaciones (
     PenalizacionID INT IDENTITY(1,1),
     CodigoAlumno varchar(9) NOT NULL,
     Tipo varchar(50) NOT NULL,
+	EmpleadoID int not null,
     FechaPenalizacion datetime NOT NULL,
     Monto money NOT NULL,
     Estado varchar(20) NOT NULL,
     CONSTRAINT PK_Penalizaciones PRIMARY KEY (PenalizacionID),
     CONSTRAINT FK_Penalizaciones_CodigoAlumno FOREIGN KEY (CodigoAlumno) REFERENCES Alumnos (CodigoAlumno),
+	CONSTRAINT FK_Penalizaciones_EmpleadoID FOREIGN KEY (EmpleadoID) REFERENCES Empleados (EmpleadoID),
     CONSTRAINT chk_Penalizaciones_Estado CHECK (Estado IN ('PAGADO', 'NO PAGADO')),
     CONSTRAINT chk_Penalizaciones_Tipo CHECK (Tipo IN ('LIMITE DE FALTAS', 'PERDIDA DE LIBRO', 'LIBRO DAÑADO'))
 );

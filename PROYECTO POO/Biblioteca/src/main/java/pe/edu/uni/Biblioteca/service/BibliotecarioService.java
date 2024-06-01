@@ -21,25 +21,23 @@ public class BibliotecarioService {
         String sql = "select count(1) filas from Alumnos where CodigoAlumno=?";
         int filas = jdbcTemplate.queryForObject(sql, Integer.class, CodigoAlumno);
         if (filas != 1){
-            throw new RuntimeException("El codigo del alumno no existe.");
+            throw new RuntimeException("El código del alumno no existe.");
         }
 
-        //verificar falta
+        //verificar los dias de demora del prestamo
         sql = "select D.FechaDevolucion from Devoluciones D where D.CodigoAlumno=?";
         String FechaDevolucionD = jdbcTemplate.queryForObject(sql, String.class, CodigoAlumno);
         sql = "select P.FechaDevolucion from Prestamos P where P.CodigoAlumno=?";
         String FechaDevolucionP = jdbcTemplate.queryForObject(sql, String.class, CodigoAlumno);
-        if (FechaDevolucionP == FechaDevolucionD) {
-            throw new RuntimeException("No se encontro falta para dicho alumno. Revise el ingreso del codigo del alumno.");
-        }
-
-        //verificar los dias de demora del prestamo
         String FechaEstablecida = FechaDevolucionP.substring(0,10);
         String FechaDevuelta = FechaDevolucionD.substring(0,10);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate FechaE = LocalDate.parse(FechaEstablecida,formatter);
         LocalDate FechaD = LocalDate.parse(FechaDevuelta,formatter);
         long diasDiferencia = ChronoUnit.DAYS.between(FechaD,FechaE);
+        if (diasDiferencia==0) {
+            throw new RuntimeException("No se encontró falta para dicho alumno. Revise el ingreso correcto de los datos.");
+        }
 
         //fijar el peso de la falta segun los dias de demora
         sql = "select PesoFalta from Faltas where ? between MinDias and MaxDias";
@@ -57,14 +55,14 @@ public class BibliotecarioService {
         String sql = "select count(1) filas from Prestamos P where P.PrestamoID=? and P.Estado = 'NO DEVUELTO'";
         int filas = jdbcTemplate.queryForObject(sql, Integer.class, dto.getPrestamoID());
         if (filas!=1){
-            throw new RuntimeException("Id de prestamo incorrecto. El prestamo no esta registrado o ya ha sido cancelado.");
+            throw new RuntimeException("Id de préstamo incorrecto. El préstamo no está registrado o ya ha sido cancelado.");
         }
 
         //validar codigo de alumno
         sql = "select count(1) filas from Prestamos P where P.CodigoAlumno=? and P.PrestamoID=?";
         filas = jdbcTemplate.queryForObject(sql, Integer.class,dto.getCodigoAlumno(),dto.getPrestamoID());
         if (filas!=1){
-            throw new RuntimeException("Codigo de alumno incorrecto. ");
+            throw new RuntimeException("Código de alumno incorrecto. ");
         }
 
         //validar empleado
