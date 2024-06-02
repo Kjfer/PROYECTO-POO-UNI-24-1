@@ -25,16 +25,14 @@ public class BibliotecarioService {
         }
 
         //verificar los dias de demora del prestamo
-        sql = "select D.FechaDevolucion from Devoluciones D where D.CodigoAlumno=?";
+        sql = "select convert(varchar(10),FechaDevolucion,103) FechaDevolucion from Devoluciones where CodigoAlumno=?";
         String FechaDevolucionD = jdbcTemplate.queryForObject(sql, String.class, CodigoAlumno);
-        sql = "select P.FechaDevolucion from Prestamos P where P.CodigoAlumno=?";
+        sql = "select convert(varchar(10),FechaDevolucion,103) FechaDevolucion from Prestamos where CodigoAlumno=?";
         String FechaDevolucionP = jdbcTemplate.queryForObject(sql, String.class, CodigoAlumno);
-        String FechaEstablecida = FechaDevolucionP.substring(0,10);
-        String FechaDevuelta = FechaDevolucionD.substring(0,10);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate FechaE = LocalDate.parse(FechaEstablecida,formatter);
-        LocalDate FechaD = LocalDate.parse(FechaDevuelta,formatter);
-        long diasDiferencia = ChronoUnit.DAYS.between(FechaD,FechaE);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate FechaEstablecida = LocalDate.parse(FechaDevolucionP,formatter);
+        LocalDate FechaDevuelta = LocalDate.parse(FechaDevolucionD,formatter);
+        long diasDiferencia = ChronoUnit.DAYS.between(FechaDevuelta,FechaEstablecida);
         if (diasDiferencia==0) {
             throw new RuntimeException("No se encontró falta para dicho alumno. Revise el ingreso correcto de los datos.");
         }
@@ -79,7 +77,7 @@ public class BibliotecarioService {
         String FechaPrestamo = jdbcTemplate.queryForObject(sql, String.class, dto.getPrestamoID());
 
         //registrar devolucion
-        sql = "insert into Devoluciones values(?,?,?,?,?,getdate())";
+        sql = "insert into Devoluciones values(?,?,?,?,?,convert(varchar(10),getdate(),103))";
         jdbcTemplate.update(sql, dto.getPrestamoID(), dto.getCodigoAlumno(), dto.getEmpleadoID(), EjemplarID, FechaPrestamo);
 
         //cambiar el estado del prestamo en la tabla

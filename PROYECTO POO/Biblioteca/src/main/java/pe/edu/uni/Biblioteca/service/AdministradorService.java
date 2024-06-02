@@ -52,7 +52,7 @@ public class AdministradorService {
         Monto += dto.getMontoInicial();
 
         //registrar penalizacion
-        sql = "insert into Penalizaciones values(?,?,?,getdate(),?,'NO PAGADO')";
+        sql = "insert into Penalizaciones values(?,?,?,convert(varchar(10),getdate(),103),?,'NO PAGADO')";
         jdbcTemplate.update(sql,dto.getCodigoAlumno(),dto.getTipo(),dto.getEmpleadoID(),Monto);
 
         //actualizar estado de alumno penalizado
