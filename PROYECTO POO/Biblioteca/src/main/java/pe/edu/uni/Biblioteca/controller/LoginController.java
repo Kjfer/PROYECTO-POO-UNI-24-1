@@ -1,4 +1,4 @@
-package pe.edu.uni.BIBLIOTECA.controller;
+package pe.edu.uni.Biblioteca.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,18 +18,19 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 	
-	@PostMapping
+	@PostMapping("/acceso")
 	public ResponseEntity<?> accederCuenta(@RequestBody UsuarioDTO bean){
 		try {
 			bean = loginService.accesoUsuario(bean);
 			if (bean.isActiva()) {
-				return ResponseEntity.ok().body("PAGINA PRINCIPAL");
+				String body = "Perfil de usuario: "+ bean.getCodigo();
+				return ResponseEntity.ok().body(body);
 			} else {
 				return ResponseEntity.ok().body("Contraseña incorrecta.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>("Error en el proceso", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Usuario incorrecto.", HttpStatus.BAD_REQUEST);
 		}
 		
 	}

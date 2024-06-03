@@ -1,10 +1,10 @@
-package pe.edu.uni.BIBLIOTECA.service;
+package pe.edu.uni.Biblioteca.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import pe.edu.uni.BIBLIOTECA.dto.PenalizacionesDTO;
-import pe.edu.uni.BIBLIOTECA.dto.registrarPagoPenalizacionDTO;
+import pe.edu.uni.Biblioteca.dto.PenalizacionesDTO;
+import pe.edu.uni.Biblioteca.dto.registrarPagoPenalizacionDTO;
 
 @Service
 public class AdministradorService {

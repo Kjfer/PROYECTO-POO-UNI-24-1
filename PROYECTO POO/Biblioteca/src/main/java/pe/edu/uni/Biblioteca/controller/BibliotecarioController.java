@@ -1,9 +1,9 @@
-package pe.edu.uni.BIBLIOTECA.controller;
+package pe.edu.uni.Biblioteca.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.uni.BIBLIOTECA.dto.DevolucionDTO;
-import pe.edu.uni.BIBLIOTECA.service.BibliotecarioService;
+import pe.edu.uni.Biblioteca.dto.DevolucionDTO;
+import pe.edu.uni.Biblioteca.service.BibliotecarioService;
 
 @RestController
 @RequestMapping("/bibliotecario")
