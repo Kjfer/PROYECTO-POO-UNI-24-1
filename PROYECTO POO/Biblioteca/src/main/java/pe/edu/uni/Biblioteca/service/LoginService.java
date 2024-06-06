@@ -1,4 +1,4 @@
-package pe.edu.uni.Biblioteca.service;
+package pe.edu.uni.BIBLIOTECA.service;
 
 import java.sql.SQLException;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import pe.edu.uni.Biblioteca.dto.UsuarioDTO;
+import pe.edu.uni.BIBLIOTECA.dto.LoginDTO;
 
 @Service
 public class LoginService {
@@ -14,7 +14,7 @@ public class LoginService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	public UsuarioDTO accesoUsuario(UsuarioDTO bean) throws SQLException {
+	public LoginDTO accesoUsuario(LoginDTO bean) throws SQLException {
 		if (bean.getCodigo().isEmpty() || bean.getPassword().isEmpty()) {
 			throw new RuntimeException("Error, no ha insertado nada.");
 		}

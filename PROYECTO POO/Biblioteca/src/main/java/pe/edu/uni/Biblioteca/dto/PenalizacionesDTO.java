@@ -1,4 +1,4 @@
-package pe.edu.uni.Biblioteca.dto;
+package pe.edu.uni.BIBLIOTECA.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

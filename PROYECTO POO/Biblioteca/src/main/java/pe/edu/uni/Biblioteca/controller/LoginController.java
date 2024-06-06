@@ -1,4 +1,4 @@
-package pe.edu.uni.Biblioteca.controller;
+package pe.edu.uni.BIBLIOTECA.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import pe.edu.uni.Biblioteca.dto.UsuarioDTO;
-import pe.edu.uni.Biblioteca.service.LoginService;
+import pe.edu.uni.BIBLIOTECA.dto.LoginDTO;
+import pe.edu.uni.BIBLIOTECA.service.LoginService;
 
 @RestController
 @RequestMapping("/login")
@@ -19,7 +19,7 @@ public class LoginController {
 	private LoginService loginService;
 	
 	@PostMapping("/acceso")
-	public ResponseEntity<?> accederCuenta(@RequestBody UsuarioDTO bean){
+	public ResponseEntity<?> accederCuenta(@RequestBody LoginDTO bean){
 		try {
 			bean = loginService.accesoUsuario(bean);
 			if (bean.isActiva()) {

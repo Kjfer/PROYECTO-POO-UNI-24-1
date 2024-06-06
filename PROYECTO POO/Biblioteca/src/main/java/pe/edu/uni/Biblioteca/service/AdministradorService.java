@@ -1,10 +1,10 @@
-package pe.edu.uni.Biblioteca.service;
+package pe.edu.uni.BIBLIOTECA.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import pe.edu.uni.Biblioteca.dto.PenalizacionesDTO;
-import pe.edu.uni.Biblioteca.dto.registrarPagoPenalizacionDTO;
+import pe.edu.uni.BIBLIOTECA.dto.PenalizacionesDTO;
+import pe.edu.uni.BIBLIOTECA.dto.registrarPagoPenalizacionDTO;
 
 @Service
 public class AdministradorService {
@@ -108,6 +108,33 @@ public class AdministradorService {
         jdbcTemplate.update(sql,dto.getCodigoAlumno());
 
         return dto;
+    }
+
+    public void actualizarEstadoEjemplar(int EmpleadoID, String EjemplarID, String Estado){
+        //validar empleado
+        String sql = "select COUNT(1) filas from Empleados E where E.EmpleadoID=?";
+        int filas = jdbcTemplate.queryForObject(sql, Integer.class,EmpleadoID);
+        if (filas!=1){
+            throw new RuntimeException("Id de empleado no existe. ");
+        }
+
+        //verificar permisos de administrador del empleado
+        sql ="select count(1) filas from Empleados where EmpleadoID=? and Tipo = 'ADMINISTRADOR'";
+        filas = jdbcTemplate.queryForObject(sql, Integer.class,EmpleadoID);
+        if (filas != 1){
+            throw new RuntimeException("El empleado ingresado no tiene los permisos para realizar esta acción.");
+        }
+
+        //validar existencia de ejemplar
+        sql = "select count(1) filas from Ejemplares where EjemplarID=?";
+        filas = jdbcTemplate.queryForObject(sql, Integer.class, EjemplarID);
+        if (filas != 1){
+            throw new RuntimeException("El id del ejemplar no existe.");
+        }
+
+        //modificar estado
+        sql = "update Ejemplares set Estado="+Estado+" where EjemplarID=?";
+        jdbcTemplate.update(sql,EjemplarID);
     }
 
 
