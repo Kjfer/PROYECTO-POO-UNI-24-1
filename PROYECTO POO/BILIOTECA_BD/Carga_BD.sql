@@ -45,3 +45,31 @@ insert into Alumnos values('20191025W','Jennifer','Lawrence Salgado','jennifer.l
 insert into Alumnos values('20241209Y','Sergio','Ramos Garcia','sergio.ramos.g@uni.pe','sramos4','20101253',convert(varchar(10),getdate(),103),3,'ACTIVO')
 insert into Alumnos values('20234587M','Alexia','Flores Rosales','alexia.flores.r@uni.pe','aflor58','455d2d33',convert(varchar(10),getdate(),103),0,'ACTIVO')
 insert into Alumnos values('20245127G','Jholvis','García Retuerto','jholvis.garcia.r@uni.pe','jgarcia777','1253260',convert(varchar(10),getdate(),103),2,'ACTIVO')
+
+-- Tabla: Libros
+
+insert into Libros values( '537SERfis', 'Física II para ciencias e ingeniería', 'Serway, Raymond A.', 'Ciencias', 537, 2008, 'INTERAMERICANA EDITORES S.A', '0-495-11243-7', '', 3);
+insert into Libros values( '517STEcal', 'Cálculo de varias variables transcendentes tempranas Séptima Edición', 'Stewart, J.', 'Análisis Matemático', 517, 2012, 'Cengage Learning Editores S.A', '0-538-49790-4', '', 4);
+insert into Libros values( '517VENint', 'Introducción al Análisis Matemático Tercera Edición', 'Venero Baldeón, A.', 'Análisis Matemático', 517, 2019, 'Representaciones Gemar E.I.R.L', '978-612-45216-4-5', '', 3);
+insert into Libros values( '510KALalg', 'Álgebra Lineal y Aplicaciones A La Geometría Tomo 2', 'Kala Béjar', 'Matemáticas', 510, 2021, 'Fondo Editorial EDUNI', '9786124597114', '', 2);
+
+-- Tabla: Ejemplares
+
+insert into Ejemplares values('537SERfis001', '537SERfis', 'DISPONIBLE');
+insert into Ejemplares values('537SERfis002', '537SERfis', 'DISPONIBLE');
+insert into Ejemplares values('537SERfis003', '537SERfis', 'DISPONIBLE');
+insert into Ejemplares values('510KALalg001', '510KALalg', 'DISPONIBLE');
+insert into Ejemplares values('510KALalg002', '510KALalg', 'DISPONIBLE');
+insert into Ejemplares values('517VENint001', '517VENint', 'EN REPARACION');
+insert into Ejemplares values('517VENint002', '517VENint', 'DISPONIBLE');
+insert into Ejemplares values('517VENint003', '517VENint', 'DISPONIBLE');
+insert into Ejemplares values('517STEcal001', '517STEcal', 'DISPONIBLE');
+insert into Ejemplares values('517STEcal002', '517STEcal', 'DISPONIBLE');
+insert into Ejemplares values('517STEcal003', '517STEcal', 'DISPONIBLE');
+insert into Ejemplares values('517STEcal004', '517STEcal', 'DISPONIBLE');
+
+-- Tabla: Prestamos
+
+insert into Prestamos values('20221518C', '510KALalg002', 7, '04/05/2024', '09/05/2024', 'LLEVAR', 'DEVUELTO');
+insert into Prestamos values('20231478Q', '517VENint001', 6, '10/05/2024', '15/05/2024', 'LLEVAR', 'DEVUELTO');
+insert into Prestamos values('20231478Q', '517VENint001', 5, '30/04/2024', '05/05/2024', 'LLEVAR', 'DEVUELTO');
