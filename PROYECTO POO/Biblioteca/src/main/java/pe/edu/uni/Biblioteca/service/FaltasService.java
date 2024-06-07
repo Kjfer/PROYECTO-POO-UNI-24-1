@@ -93,41 +93,7 @@ public class BibliotecarioService {
 
     }
 
-    public PrestamoDTO resgitrarPrestamo(PrestamoDTO dto){
 
-        // Validar que el alumno exista
-        String sql = "SELECT COUNT(1) filas FROM Alumnos WHERE CodigoAlumno = ?";
-        int filas = jdbcTemplate.queryForObject(sql, Integer.class, dto.getCodigoAlumno());
-        if (filas != 1) {
-            throw new RuntimeException( "El código del alumno no existe.");
-        }
-
-        // Validar que el empleado exista
-        sql = "SELECT COUNT(1) filas FROM Empleados WHERE EmpleadoID = ?";
-        filas = jdbcTemplate.queryForObject(sql, Integer.class, dto.getEmpleadoID());
-        if (filas != 1) {
-            throw new RuntimeException( "El id del empleado no existe.");
-        }
-
-        // Validar que el ejemplar esté disponible
-        sql = "SELECT COUNT(1) filas FROM Ejemplares WHERE EjemplarID = ? AND Estado = 'DISPONIBLE'";
-        filas = jdbcTemplate.queryForObject(sql, Integer.class, dto.getEjemplarID());
-        if (filas != 1) {
-            throw new RuntimeException("El ejemplar no está disponible para ser prestado.");
-        }
-
-        // Realizar el préstamo
-        sql = "INSERT INTO Prestamos (CodigoAlumno, EjemplarID, EmpleadoID, FechaPrestamo, FechaDevolucion, TipoPrestamo, Estado) VALUES (?, ?, ?, convert(varchar(10),getdate(),103), convert(varchar(10),DATEADD(day, (select Valor from Guia where Parametro='Tiempo de devolucion en dias') , GETDATE()),103), ?, 'NO DEVUELTO')";
-        jdbcTemplate.update(sql, dto.getCodigoAlumno(), dto.getEjemplarID(), dto.getEmpleadoID(), dto.getTipoPrestamo());
-
-        //actualizar estado del ejemplar
-        sql = "UPDATE Ejemplares SET Estado = 'PRESTADO' WHERE EjemplarID = ?";
-        jdbcTemplate.update(sql, dto.getEjemplarID());
-
-        return dto;
-
-
-    }
 
 
 }

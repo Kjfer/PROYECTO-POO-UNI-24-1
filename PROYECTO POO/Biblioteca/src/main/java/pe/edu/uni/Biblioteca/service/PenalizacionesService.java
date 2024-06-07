@@ -40,8 +40,8 @@ public class AdministradorService {
             sql = "select NumeroFaltas from Alumnos where CodigoAlumno=?";
             int NumeroFaltas = jdbcTemplate.queryForObject(sql, Integer.class, dto.getCodigoAlumno());
             sql = "select Valor from Guia where Parametro='Faltas maximas'";
-            int MaxFaltas = jdbcTemplate.queryForObject(sql, Integer.class);
-            if (NumeroFaltas < MaxFaltas) {
+            int Valor = jdbcTemplate.queryForObject(sql, Integer.class);
+            if (NumeroFaltas < Valor) {
                 throw new RuntimeException("El alumno no paso el límite máximo de faltas establecido.");
             }
         }
@@ -108,33 +108,6 @@ public class AdministradorService {
         jdbcTemplate.update(sql,dto.getCodigoAlumno());
 
         return dto;
-    }
-
-    public void actualizarEstadoEjemplar(int EmpleadoID, String EjemplarID, String Estado){
-        //validar empleado
-        String sql = "select COUNT(1) filas from Empleados E where E.EmpleadoID=?";
-        int filas = jdbcTemplate.queryForObject(sql, Integer.class,EmpleadoID);
-        if (filas!=1){
-            throw new RuntimeException("Id de empleado no existe. ");
-        }
-
-        //verificar permisos de administrador del empleado
-        sql ="select count(1) filas from Empleados where EmpleadoID=? and Tipo = 'ADMINISTRADOR'";
-        filas = jdbcTemplate.queryForObject(sql, Integer.class,EmpleadoID);
-        if (filas != 1){
-            throw new RuntimeException("El empleado ingresado no tiene los permisos para realizar esta acción.");
-        }
-
-        //validar existencia de ejemplar
-        sql = "select count(1) filas from Ejemplares where EjemplarID=?";
-        filas = jdbcTemplate.queryForObject(sql, Integer.class, EjemplarID);
-        if (filas != 1){
-            throw new RuntimeException("El id del ejemplar no existe.");
-        }
-
-        //modificar estado
-        sql = "update Ejemplares set Estado="+Estado+" where EjemplarID=?";
-        jdbcTemplate.update(sql,EjemplarID);
     }
 
 
