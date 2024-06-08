@@ -1,6 +1,5 @@
 package pe.edu.uni.BIBLIOTECA.service;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ public class LibroService {
     JdbcTemplate jdbcTemplate;
 
     //para administradores
-    public boolean AgregarLibro(LibroDTO dto){
+    public LibroDTO AgregarLibro(LibroDTO dto){
         //verificar que el libro no exista mediante el ISBN
         String sql = "select count(1) filas from Libros where ISBN=?";
         int filas = jdbcTemplate.queryForObject(sql,Integer.class,dto.getISBN());
@@ -46,6 +45,7 @@ public class LibroService {
             caracteres.remove(index); // Evita seleccionar el mismo carácter más de una vez
         }
         String string1 = seleccionados.toString();
+
         //3 caracteres del titulo
         ArrayList<Character> caracteres1 = new ArrayList<>();
         // Recorremos la cadena y añadimos los caracteres que no son espacios en blanco
@@ -68,26 +68,24 @@ public class LibroService {
         String LibroID = dto.getCDU()+string1+string2;
 
         //agregar libro
-        try {
-            sql = "insert into Libros values (?,?,?,?,?,?,?,?,?,1)";
-            jdbcTemplate.update(sql,LibroID,dto.getTitulo(),dto.getAutor(), dto.getCategoría(), dto.getCDU(), dto.getAnioPublicacion(), dto.getEditorial(),dto.getISBN(),dto.getDescripcion());
-            return true;
-        }catch (Exception e){
-            return false;
-        }
+        sql = "insert into Libros values (?,?,?,?,?,?,?,?,?,1)";
+        jdbcTemplate.update(sql,LibroID,dto.getTitulo(),dto.getAutor(), dto.getCategoría(), dto.getCDU(), dto.getAnioPublicacion(), dto.getEditorial(),dto.getISBN(),dto.getDescripcion());
 
+        return dto;
 
     }
 
     //para administradores
-    public boolean EliminarLibro(String LibroID){
-        try {
-            String sql = "DELETE FROM Libros where LibroID=?";
-            jdbcTemplate.update(sql, LibroID);
-            return true;
-        } catch(Exception e) {
-            return false;
+    public void EliminarLibro(String LibroID){
+        //verificar que el libro exista
+        String sql = "select count(1) filas from Libros where LibroID=?";
+        int filas = jdbcTemplate.queryForObject(sql, Integer.class, LibroID);
+        if (filas != 1){
+            throw new RuntimeException("El libro no existe.");
         }
+        sql = "DELETE FROM Libros where LibroID=?";
+        jdbcTemplate.update(sql, LibroID);
+
     }
 
     //para administradores
@@ -122,7 +120,7 @@ public class LibroService {
         return jdbcTemplate.queryForList(sql);
     }
 
-    public Map<String,Object> buscarLibroPorTitulo(String Titulo){
+    public List<Map<String,Object>> buscarLibroPorTitulo(String Titulo){
         //verificar que el libro exista
         String sql = "select count(1) filas from Libros where Titulo=?";
         int filas = jdbcTemplate.queryForObject(sql, Integer.class, Titulo);
@@ -130,10 +128,10 @@ public class LibroService {
             throw new RuntimeException("No se encontró resultados al título ingresado.");
         }
         sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Titulo=?";
-        return jdbcTemplate.queryForMap(sql,Titulo);
+        return jdbcTemplate.queryForList(sql,Titulo);
     }
 
-    public Map<String,Object> buscarLibroPoAutor(String Autor){
+    public List<Map<String,Object>> buscarLibrorPorAutor(String Autor){
         //verificar que el libro exista
         String sql = "select count(1) filas from Libros where Autor=?";
         int filas = jdbcTemplate.queryForObject(sql, Integer.class, Autor);
@@ -141,10 +139,10 @@ public class LibroService {
             throw new RuntimeException("No se encontró resultados al autor ingresado.");
         }
         sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Autor=?";
-        return jdbcTemplate.queryForMap(sql,Autor);
+        return jdbcTemplate.queryForList(sql,Autor);
     }
 
-    public Map<String,Object> buscarLibroPorCategoria(String Categoria){
+    public List<Map<String,Object>> buscarLibroPorCategoria(String Categoria){
         //verificar que el libro exista
         String sql = "select count(1) filas from Libros where Categoria=?";
         int filas = jdbcTemplate.queryForObject(sql, Integer.class, Categoria);
@@ -152,10 +150,10 @@ public class LibroService {
             throw new RuntimeException("No se encontró resultados a la categoría ingresada.");
         }
         sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Categoria=?";
-        return jdbcTemplate.queryForMap(sql,Categoria);
+        return jdbcTemplate.queryForList(sql,Categoria);
     }
 
-    public Map<String,Object> buscarLibroPorAnio(int AnioPublicacion){
+    public List<Map<String,Object>> buscarLibroPorAnio(int AnioPublicacion){
         //verificar que el libro exista
         String sql = "select count(1) filas from Libros where AñoPublicacion=?";
         int filas = jdbcTemplate.queryForObject(sql, Integer.class, AnioPublicacion);
@@ -163,10 +161,10 @@ public class LibroService {
             throw new RuntimeException("No se encontró resultados al año de publicación ingresado.");
         }
         sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where AñoPublicacion=?";
-        return jdbcTemplate.queryForMap(sql,AnioPublicacion);
+        return jdbcTemplate.queryForList(sql,AnioPublicacion);
     }
 
-    public Map<String,Object> buscarLibroPorEditorial(String Editorial){
+    public List<Map<String,Object>> buscarLibroPorEditorial(String Editorial){
         //verificar que el libro exista
         String sql = "select count(1) filas from Libros where Editorial=?";
         int filas = jdbcTemplate.queryForObject(sql, Integer.class, Editorial);
@@ -174,7 +172,7 @@ public class LibroService {
             throw new RuntimeException("No se encontró resultados a la editorial ingresada.");
         }
         sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Editorial=?";
-        return jdbcTemplate.queryForMap(sql,Editorial);
+        return jdbcTemplate.queryForList(sql,Editorial);
     }
 
     public Map<String,Object> buscarLibroPorISBN(String ISBN){

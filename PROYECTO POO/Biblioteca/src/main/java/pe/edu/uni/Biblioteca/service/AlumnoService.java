@@ -43,7 +43,7 @@ public class AlumnoService {
     }
 
     //para bibliotecario y administrador
-    public boolean AgregarAlumno(AlumnoDTO dto){
+    public AlumnoDTO AgregarAlumno(AlumnoDTO dto){
         //verificar que el alumno no exista
         String sql = "select count(1) filas from Alumnos where CodigoAlumno=?";
         int filas = jdbcTemplate.queryForObject(sql, Integer.class,dto.getCodigoAlumno());
@@ -52,12 +52,10 @@ public class AlumnoService {
         }
         //agregar alumno
         sql = "insert into Alumnos(CodigoAlumno,Nombres,Apellidos,Correo,Usuario,Contraseña,FechaRegistro,NumeroFaltas,Estado) values(?,?,?,?,?,?,convert(varchar(10),getdate(),103),0,'ACTIVO')";
-        try {
-            jdbcTemplate.update(sql,dto.getCodigoAlumno(),dto.getNombres(),dto.getApellidos(),dto.getCorreo(),dto.getUsuario(),dto.getClave());
-            return true;
-        }catch (Exception e){
-            return false;
-        }
+        jdbcTemplate.update(sql,dto.getCodigoAlumno(),dto.getNombres(),dto.getApellidos(),dto.getCorreo(),dto.getUsuario(),dto.getClave());
+
+        return dto;
+
     }
 
     //para alumno
