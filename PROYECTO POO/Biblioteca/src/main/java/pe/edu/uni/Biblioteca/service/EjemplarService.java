@@ -1,2 +1,4 @@
-package pe.edu.uni.BIBLIOTECA.service;public class EjemplarService {
+package pe.edu.uni.Biblioteca.service;
+
+public class EjemplarService {
 }

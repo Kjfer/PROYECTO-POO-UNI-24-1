@@ -1,2 +1,2 @@
-package pe.edu.uni.BIBLIOTECA.dto;public class EjemplarDTO {
+package pe.edu.uni.Biblioteca.dto;public class EjemplarDTO {
 }

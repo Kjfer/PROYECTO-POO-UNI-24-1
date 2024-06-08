@@ -1,4 +1,4 @@
-package pe.edu.uni.BIBLIOTECA.service;
+package pe.edu.uni.Biblioteca.service;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;

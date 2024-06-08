@@ -1,88 +1,55 @@
-package pe.edu.uni.BIBLIOTECA.service;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
-import pe.edu.uni.BIBLIOTECA.dto.AlumnoDTO;
+package pe.edu.uni.Biblioteca.service;
 
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Service;
+
+import pe.edu.uni.Biblioteca.dto.AlumnoDTO;
+import pe.edu.uni.Biblioteca.dto.LibroDTO;
+import pe.edu.uni.Biblioteca.dto.PrestamoDTO;
+import pe.edu.uni.demo01.dto.ClienteDto;
+
 @Service
 public class AlumnoService {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    //para bibliotecario y administrador
-    public List<Map<String,Object>> obtenerTodosAlumnos(){
-        String sql = "select * from Alumnos";
-        return jdbcTemplate.queryForList(sql);
-    }
-
-    //para el bibliotecario y administrador
-    public Map<String,Object> obtenerAlumnoPorCodigo(String CodigoAlumno){
-        String sql="select count(1) filas from Alumnos where CodigoAlumno=?";
-        int filas = jdbcTemplate.queryForObject(sql, Integer.class,CodigoAlumno);
-        if (filas != 1){
-            throw new RuntimeException("El código del alumno no existe.");
-        }
-        sql = "select * from Alumnos where CodigoAlumno=?";
-        return jdbcTemplate.queryForMap(sql,CodigoAlumno);
-    }
-
-    //para el Alumno
-    public Map<String,Object> obtenerDatosPorCodigo(String CodigoAlumno){
-        String sql="select count(1) filas from Alumnos where CodigoAlumno=?";
-        int filas = jdbcTemplate.queryForObject(sql, Integer.class,CodigoAlumno);
-        if (filas != 1){
-            throw new RuntimeException("El código del alumno no existe.");
-        }
-        sql = "select CodigoAlumno, Nombres, Apellidos, Correo, Usuario, Contraseña Clave  from Alumnos where CodigoAlumno=?";
-        return jdbcTemplate.queryForMap(sql, CodigoAlumno);
-    }
-
-    //para bibliotecario y administrador
-    public boolean AgregarAlumno(AlumnoDTO dto){
-        //verificar que el alumno no exista
-        String sql = "select count(1) filas from Alumnos where CodigoAlumno=?";
-        int filas = jdbcTemplate.queryForObject(sql, Integer.class,dto.getCodigoAlumno());
-        if (filas == 1){
-            throw new RuntimeException("El alumno ya está registrado. Verifique los datos de ingreso.");
-        }
-        //agregar alumno
-        sql = "insert into Alumnos(CodigoAlumno,Nombres,Apellidos,Correo,Usuario,Contraseña,FechaRegistro,NumeroFaltas,Estado) values(?,?,?,?,?,?,convert(varchar(10),getdate(),103),0,'ACTIVO')";
-        try {
-            jdbcTemplate.update(sql,dto.getCodigoAlumno(),dto.getNombres(),dto.getApellidos(),dto.getCorreo(),dto.getUsuario(),dto.getClave());
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
-
-    //para alumno
-    public boolean ActualizarAlumno(AlumnoDTO dto){
-        try {
-            String sql = "update Alumnos set Nombres=?, Apellidos=?, Correo=?, Usuario=?, Contraseña=? where CodigoAlumno=?";
-            jdbcTemplate.update(sql,dto.getNombres(),dto.getApellidos(),dto.getCorreo(),dto.getUsuario(),dto.getClave(),dto.getCodigoAlumno());
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-
-    }
-
-    //para administradores
-    public boolean eliminarAlumno(String CodigoAlumno) {
-        try {
-            String sql = "DELETE FROM Alumnos where CodigoAlumno=?";
-            jdbcTemplate.update(sql, CodigoAlumno);
-            return true;
-        } catch(Exception e) {
-            return false;
-        }
-    }
-
-
-
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	public AlumnoDTO datosAlumnos(String codigoAlumno) {
+		String sql = "SELECT Nombres nombres, Apellidos apellidos, ";
+		sql += " Correo correo, Faltas faltas FROM Alumnos ";
+		sql += "WHERE CodigoAlumno = ?";
+		AlumnoDTO dto;
+		
+		try {
+			dto = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<AlumnoDTO>(AlumnoDTO.class), codigoAlumno);
+		} catch (Exception e) {
+			dto = null;
+		}
+		
+		return dto;
+	}
+	
+	public List<PrestamoDTO> informesLibrosAlumno(String codigoAlumno){
+		
+		String sql = "select L.Título libroNombre, L.Autor libroAutor, ";
+		sql += "RIGHT(P.EjemplarID, LEN(P.EjemplarID)-9) numeroLibro, ";
+		sql += "P.fechaPrestamo fechaPrestamo, P.FechaDevolucion fechaDevolucion, ";
+		sql += "P.Estado estado, P.TipoPrestamo tipoPrestamo FROM Prestamos P join ";
+		sql += "Libros L on LEFT(P.EjemplarID, 9) = L.LibroID where P.CodigoAlumno = ?";
+		List<PrestamoDTO> lista;
+		lista = jdbcTemplate.query(sql, new BeanPropertyRowMapper<PrestamoDTO>(PrestamoDTO.class), codigoAlumno);
+		
+		return lista;
+	}
+	
+	public void mostrarIndicadores(String empleadoID){
+		
+		
+	}
 }
