@@ -18,21 +18,22 @@ public class DevolucionController {
 
     @GetMapping("/mostrarTodos")
     public List<Map<String,Object>> mostrarTodos(){
+
         return devolucionService.mostrarTodasDevoluciones();
     }
 
     @GetMapping("/mostrarPorAlumno")
-    public List<Map<String,Object>> mostrarPorAlumno(String CodigoAlumno){
+    public List<Map<String,Object>> mostrarPorAlumno(@RequestParam String CodigoAlumno){
         return devolucionService.mostrarDevolucionesbyAlumno(CodigoAlumno);
     }
 
     @GetMapping("/mostrarTardePorAlumno")
-    public List<Map<String,Object>> mostrarTardePorAlumno(String CodigoAlumno){
+    public List<Map<String,Object>> mostrarTardePorAlumno(@RequestParam String CodigoAlumno){
         return devolucionService.mostrarDevolucionesTardebyAlumno(CodigoAlumno);
     }
 
     @PostMapping("/registrar")
-    public String registrar(DevolucionDTO dto){
+    public String registrar(@RequestBody DevolucionDTO dto){
         String mensaje;
         try {
             dto = devolucionService.registrarDevolucion(dto);

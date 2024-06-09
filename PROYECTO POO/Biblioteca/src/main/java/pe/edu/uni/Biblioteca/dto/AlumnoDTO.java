@@ -8,12 +8,12 @@ import lombok.ToString;
 @Data @AllArgsConstructor @NoArgsConstructor @ToString
 public class AlumnoDTO {
 
-    private String CodigoAlumno;
-    private String Nombres;
-    private String Apellidos;
-    private String Correo;
-    private String Usuario;
-    private String Clave;
+    private String codigoAlumno;
+    private String nombres;
+    private String apellidos;
+    private String correo;
+    private String usuario;
+    private String clave;
 
 
 }

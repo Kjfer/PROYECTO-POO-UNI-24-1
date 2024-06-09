@@ -17,7 +17,7 @@ public class LibroController {
     private LibroService libroService;
 
     @PostMapping("/agregar")
-    public String agregar(LibroDTO dto){
+    public String agregar(@RequestBody LibroDTO dto){
         String mensaje;
         try {
             dto = libroService.AgregarLibro(dto);
@@ -30,7 +30,7 @@ public class LibroController {
     }
 
     @DeleteMapping("/eliminar")
-    public String eliminar(String LibroID){
+    public String eliminar(@RequestParam String LibroID){
         String mensaje;
         try {
             libroService.EliminarLibro(LibroID);
@@ -43,7 +43,7 @@ public class LibroController {
     }
 
     @PutMapping("/actualizar")
-    public String actualizar(LibroDTO dto){
+    public String actualizar(@RequestBody LibroDTO dto){
         String mensaje;
         boolean actualizado = libroService.ActualizarLibro(dto);
         if(actualizado){
@@ -57,7 +57,7 @@ public class LibroController {
     }
 
     @GetMapping("/mostrarPorID")
-    public Map<String,Object> mostrarPorID(String LibroID){
+    public Map<String,Object> mostrarPorID(@RequestParam String LibroID){
         return libroService.MostrarLibroPorID(LibroID);
     }
 
@@ -67,32 +67,32 @@ public class LibroController {
     }
 
     @GetMapping("mostrarPorTitulo")
-    public List<Map<String,Object>> mostrarPorTitulo(String Titulo){
+    public List<Map<String,Object>> mostrarPorTitulo(@RequestParam String Titulo){
         return libroService.buscarLibroPorTitulo(Titulo);
     }
 
     @GetMapping("mostrarPorAutor")
-    public List<Map<String,Object>> mostrarPorAutor(String Autor){
+    public List<Map<String,Object>> mostrarPorAutor(@RequestParam String Autor){
         return libroService.buscarLibrorPorAutor(Autor);
     }
 
     @GetMapping("mostrarPorCategoria")
-    public List<Map<String,Object>> mostrarPorCategoria(String Categoria){
+    public List<Map<String,Object>> mostrarPorCategoria(@RequestParam String Categoria){
         return libroService.buscarLibroPorCategoria(Categoria);
     }
 
     @GetMapping("mostrarPorEditorial")
-    public List<Map<String,Object>> mostrarPorEditorial(String Editorial){
+    public List<Map<String,Object>> mostrarPorEditorial(@RequestParam String Editorial){
         return libroService.buscarLibroPorEditorial(Editorial);
     }
 
     @GetMapping("mostrarPorAnio")
-    public List<Map<String,Object>> mostrarPorAnio(int Anio){
+    public List<Map<String,Object>> mostrarPorAnio(@RequestParam int Anio){
         return libroService.buscarLibroPorAnio(Anio);
     }
 
     @GetMapping("mostrarPorISBN")
-    public Map<String,Object> mostrarPorISBN(String ISBN){
+    public Map<String,Object> mostrarPorISBN(@RequestParam String ISBN){
         return libroService.buscarLibroPorISBN(ISBN);
     }
 

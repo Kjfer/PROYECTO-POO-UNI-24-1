@@ -104,4 +104,10 @@ public class PrestamoService {
 
     }
 
+    public List<Map<String, Object>> historialPrestamosPorMes(int mes, int anio) {
+        String sql = "SELECT * FROM Prestamos WHERE MONTH(convert(date, FechaPrestamo, 103)) = ? AND YEAR(convert(date, FechaPrestamo, 103)) = ?";
+        return jdbcTemplate.queryForList(sql, mes, anio);
+    }
+
+
 }

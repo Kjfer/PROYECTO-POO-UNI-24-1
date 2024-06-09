@@ -17,21 +17,22 @@ public class EjemplarController {
 
     @GetMapping("/mostrarTodos")
     public List<Map<String,Object>> mostrarTodos(){
+
         return ejemplarService.mostrarTodosEjemplares();
     }
 
     @GetMapping("/mostrarPorID")
-    public Map<String,Object> mostrarPorID(String EjemplarID){
+    public Map<String,Object> mostrarPorID(@RequestParam String EjemplarID){
         return ejemplarService.mostrarEjemplarbyID(EjemplarID);
     }
 
     @GetMapping("/mostrarPorLibroID")
-    public List<Map<String,Object>> mostrarPorLibroID(String LibroID){
+    public List<Map<String,Object>> mostrarPorLibroID(@RequestParam String LibroID){
         return ejemplarService.mostrarEjemplarbyLibroID(LibroID);
     }
 
     @PostMapping("/agregar")
-    public String agregar(String LibroID){
+    public String agregar(@RequestParam String LibroID){
         String mensaje;
         try {
             ejemplarService.AgregarEjemplar(LibroID);
@@ -44,7 +45,7 @@ public class EjemplarController {
     }
 
     @PutMapping("/actualizar")
-    public String actualizar(String EjemplarID, String Estado){
+    public String actualizar(@RequestParam String EjemplarID,@RequestParam String Estado){
         String mensaje;
         try {
             ejemplarService.actualizarEstadoEjemplar(EjemplarID,Estado);
@@ -57,7 +58,7 @@ public class EjemplarController {
     }
 
     @DeleteMapping("/eliminar")
-    public String eliminar(String EjemplarID){
+    public String eliminar(@RequestParam String EjemplarID){
         String mensaje;
         try {
             ejemplarService.eliminarEjemplar(EjemplarID);

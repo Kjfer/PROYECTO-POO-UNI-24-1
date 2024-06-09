@@ -23,17 +23,17 @@ public class PenalizacionesController {
     }
 
     @GetMapping("/mostrarPorAlumno")
-    public List<Map<String,Object>> mostrarPorAlumno(String CodigoAlumno){
+    public List<Map<String,Object>> mostrarPorAlumno(@RequestParam String CodigoAlumno){
         return penalizacionesService.mostrarPenalizacionesbyAlumno(CodigoAlumno);
     }
 
     @GetMapping("/mostrarPendientesPorAlumno")
-    public List<Map<String,Object>> mostrarPendientesPorAlumno(String CodigoAlumno){
+    public List<Map<String,Object>> mostrarPendientesPorAlumno(@RequestParam String CodigoAlumno){
         return penalizacionesService.mostrarPenalizacionesPendientesbyAlumno(CodigoAlumno);
     }
 
     @PostMapping("/penalizar")
-    public String penalizar(PenalizacionesDTO dto){
+    public String penalizar(@RequestBody PenalizacionesDTO dto){
         String mensaje;
         try {
             dto = penalizacionesService.penalizarAlumno(dto);
@@ -46,7 +46,7 @@ public class PenalizacionesController {
     }
 
     @PutMapping("/registarPago")
-    public String registrarPago(registrarPagoPenalizacionDTO dto){
+    public String registrarPago(@RequestBody registrarPagoPenalizacionDTO dto){
         String mensaje;
         try {
             dto = penalizacionesService.registrarPago(dto);

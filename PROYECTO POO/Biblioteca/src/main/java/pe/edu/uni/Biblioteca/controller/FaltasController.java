@@ -14,12 +14,12 @@ public class FaltasController {
     private  FaltasService faltasService;
 
     @GetMapping("/porAlumno")
-    public int porAlumno(String CodigoAlumno){
+    public int porAlumno(@RequestParam String CodigoAlumno){
         return faltasService.obtenerFaltasbyAlumno(CodigoAlumno);
     }
 
     @PostMapping("/agregar")
-    public String agregar(String CodigoAlumno){
+    public String agregar(@RequestParam String CodigoAlumno){
         String mensaje;
         try {
             faltasService.AgregarFalta(CodigoAlumno);

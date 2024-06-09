@@ -3,6 +3,7 @@ package pe.edu.uni.BIBLIOTECA.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pe.edu.uni.BIBLIOTECA.dto.AlumnoDTO;
 
 import java.util.List;
@@ -43,26 +44,29 @@ public class AlumnoService {
     }
 
     //para bibliotecario y administrador
-    public AlumnoDTO AgregarAlumno(AlumnoDTO dto){
-        //verificar que el alumno no exista
-        String sql = "select count(1) filas from Alumnos where CodigoAlumno=?";
-        int filas = jdbcTemplate.queryForObject(sql, Integer.class,dto.getCodigoAlumno());
-        if (filas == 1){
+    @Transactional
+    public AlumnoDTO agregarAlumno(AlumnoDTO dto) {
+        // Verificar si el alumno ya está registrado
+        String sql1 = "SELECT COUNT(1) FROM Alumnos WHERE CodigoAlumno = ?";
+        int filas = jdbcTemplate.queryForObject(sql1, Integer.class, dto.getCodigoAlumno());
+        if (filas == 1) {
             throw new RuntimeException("El alumno ya está registrado. Verifique los datos de ingreso.");
         }
-        //agregar alumno
-        sql = "insert into Alumnos(CodigoAlumno,Nombres,Apellidos,Correo,Usuario,Contraseña,FechaRegistro,NumeroFaltas,Estado) values(?,?,?,?,?,?,convert(varchar(10),getdate(),103),0,'ACTIVO')";
-        jdbcTemplate.update(sql,dto.getCodigoAlumno(),dto.getNombres(),dto.getApellidos(),dto.getCorreo(),dto.getUsuario(),dto.getClave());
+
+        // Agregar alumno
+        String sql = "INSERT INTO Alumnos (CodigoAlumno, Nombres, Apellidos, Correo, Usuario, Contraseña, FechaRegistro, NumeroFaltas, Estado) " +
+                "VALUES (?, ?, ?, ?, ?, ?, CONVERT(VARCHAR(10), GETDATE(), 103), 0, 'ACTIVO')";
+        jdbcTemplate.update(sql, dto.getCodigoAlumno(), dto.getNombres(), dto.getApellidos(),
+                dto.getCorreo(), dto.getUsuario(), dto.getClave());
 
         return dto;
-
     }
 
     //para alumno
-    public boolean ActualizarAlumno(AlumnoDTO dto){
+    public boolean actualizarAlumno(String codigoAlumno, AlumnoDTO dto){
         try {
-            String sql = "update Alumnos set Nombres=?, Apellidos=?, Correo=?, Usuario=?, Contraseña=? where CodigoAlumno=?";
-            jdbcTemplate.update(sql,dto.getNombres(),dto.getApellidos(),dto.getCorreo(),dto.getUsuario(),dto.getClave(),dto.getCodigoAlumno());
+            String sql = "update Alumnos set Nombres=?,Apellidos=?,Correo=?,Usuario=?,Contraseña=? where CodigoAlumno=?";
+            jdbcTemplate.update(sql,dto.getNombres(),dto.getApellidos(),dto.getCorreo(),dto.getUsuario(),dto.getClave(),codigoAlumno);
             return true;
         }catch (Exception e){
             return false;
@@ -71,10 +75,15 @@ public class AlumnoService {
     }
 
     //para administradores
-    public boolean eliminarAlumno(String CodigoAlumno) {
+    public boolean eliminarAlumno(String codigoAlumno) {
+        String sql1="select count(1) filas from Alumnos where CodigoAlumno=?";
+        int filas = jdbcTemplate.queryForObject(sql1, Integer.class,codigoAlumno);
+        if (filas != 1){
+            throw new RuntimeException("El código del alumno no existe.");
+        }
         try {
             String sql = "DELETE FROM Alumnos where CodigoAlumno=?";
-            jdbcTemplate.update(sql, CodigoAlumno);
+            jdbcTemplate.update(sql, codigoAlumno);
             return true;
         } catch(Exception e) {
             return false;
