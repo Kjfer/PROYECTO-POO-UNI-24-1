@@ -1,10 +1,10 @@
-package pe.edu.uni.BIBLIOTECA.service;
+package pe.edu.uni.Biblioteca.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pe.edu.uni.BIBLIOTECA.dto.AlumnoDTO;
+import pe.edu.uni.Biblioteca.dto.AlumnoDTO;
 
 import java.util.List;
 import java.util.Map;

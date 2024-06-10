@@ -1,9 +1,9 @@
-package pe.edu.uni.BIBLIOTECA.controller;
+package pe.edu.uni.Biblioteca.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.uni.BIBLIOTECA.dto.PrestamoDTO;
-import pe.edu.uni.BIBLIOTECA.service.PrestamoService;
+import pe.edu.uni.Biblioteca.dto.PrestamoDTO;
+import pe.edu.uni.Biblioteca.service.PrestamoService;
 
 import java.util.List;
 import java.util.Map;

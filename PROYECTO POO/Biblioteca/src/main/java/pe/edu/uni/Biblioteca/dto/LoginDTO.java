@@ -1,4 +1,4 @@
-package pe.edu.uni.BIBLIOTECA.dto;
+package pe.edu.uni.Biblioteca.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,5 +11,6 @@ public class LoginDTO {
 	private String password;
 	private String tipo;
 	private boolean activa;
+	private String Estado;
 	
 }

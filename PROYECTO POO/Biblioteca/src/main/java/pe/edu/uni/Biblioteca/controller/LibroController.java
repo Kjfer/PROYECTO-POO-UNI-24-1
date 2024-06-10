@@ -1,9 +1,9 @@
-package pe.edu.uni.BIBLIOTECA.controller;
+package pe.edu.uni.Biblioteca.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.uni.BIBLIOTECA.dto.LibroDTO;
-import pe.edu.uni.BIBLIOTECA.service.LibroService;
+import pe.edu.uni.Biblioteca.dto.LibroDTO;
+import pe.edu.uni.Biblioteca.service.LibroService;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ public class LibroController {
 
     @Autowired
     private LibroService libroService;
-
+    
     @PostMapping("/agregar")
     public String agregar(@RequestBody LibroDTO dto){
         String mensaje;
@@ -66,32 +66,32 @@ public class LibroController {
         return libroService.MostrarTodosLibros();
     }
 
-    @GetMapping("mostrarPorTitulo")
+    @GetMapping("/mostrarPorTitulo")
     public List<Map<String,Object>> mostrarPorTitulo(@RequestParam String Titulo){
         return libroService.buscarLibroPorTitulo(Titulo);
     }
 
-    @GetMapping("mostrarPorAutor")
+    @GetMapping("/mostrarPorAutor")
     public List<Map<String,Object>> mostrarPorAutor(@RequestParam String Autor){
         return libroService.buscarLibrorPorAutor(Autor);
     }
 
-    @GetMapping("mostrarPorCategoria")
+    @GetMapping("/mostrarPorCategoria")
     public List<Map<String,Object>> mostrarPorCategoria(@RequestParam String Categoria){
         return libroService.buscarLibroPorCategoria(Categoria);
     }
 
-    @GetMapping("mostrarPorEditorial")
+    @GetMapping("/mostrarPorEditorial")
     public List<Map<String,Object>> mostrarPorEditorial(@RequestParam String Editorial){
         return libroService.buscarLibroPorEditorial(Editorial);
     }
 
-    @GetMapping("mostrarPorAnio")
+    @GetMapping("/mostrarPorAnio")
     public List<Map<String,Object>> mostrarPorAnio(@RequestParam int Anio){
         return libroService.buscarLibroPorAnio(Anio);
     }
 
-    @GetMapping("mostrarPorISBN")
+    @GetMapping("/mostrarPorISBN")
     public Map<String,Object> mostrarPorISBN(@RequestParam String ISBN){
         return libroService.buscarLibroPorISBN(ISBN);
     }

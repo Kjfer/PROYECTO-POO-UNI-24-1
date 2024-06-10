@@ -1,8 +1,8 @@
-package pe.edu.uni.BIBLIOTECA.controller;
+package pe.edu.uni.Biblioteca.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.uni.BIBLIOTECA.service.TarifaService;
+import pe.edu.uni.Biblioteca.service.TarifaService;
 
 @RestController
 @RequestMapping("/tarifas")

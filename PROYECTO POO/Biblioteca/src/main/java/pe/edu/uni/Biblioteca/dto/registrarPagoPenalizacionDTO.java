@@ -1,4 +1,4 @@
-package pe.edu.uni.BIBLIOTECA.dto;
+package pe.edu.uni.Biblioteca.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,8 @@ import lombok.ToString;
 
 @Data @AllArgsConstructor @NoArgsConstructor @ToString
 public class registrarPagoPenalizacionDTO {
-    private int PenalizacionID;
-    private String CodigoAlumno;
-    private int EmpleadoID;
-    private double Monto;
+    private int penalizacionID;
+    private String codigoAlumno;
+    private int empleadoID;
+    private double monto;
 }

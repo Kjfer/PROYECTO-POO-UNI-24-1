@@ -1,8 +1,10 @@
-package pe.edu.uni.BIBLIOTECA.service;
+package pe.edu.uni.Biblioteca.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,8 @@ public class EjemplarService {
     JdbcTemplate jdbcTemplate;
 
     //para administradores
+    @Transactional(propagation = Propagation.REQUIRES_NEW,
+			rollbackFor = Exception.class)
     public void AgregarEjemplar(String LibroID){
         //verificar que el libro exista
         String sql = "select count(1) filas from Libros where LibroID=?";
@@ -26,7 +30,8 @@ public class EjemplarService {
         int cantidad = jdbcTemplate.queryForObject(sql, Integer.class, LibroID);
         //crear el ejemplar ID
         cantidad++;
-        String IdNumerico = String.format("$03d",cantidad);
+        String IdNumerico = "000" + cantidad;
+        IdNumerico  = IdNumerico .substring(IdNumerico .length() - 3);
         String EjemplarID = LibroID+IdNumerico;
         //agregar ejemplar a la tabla
         sql = "insert into Ejemplares values(?,?,'DISPONIBLE')";
@@ -37,19 +42,23 @@ public class EjemplarService {
     }
 
     //para administradores
+    @Transactional(propagation = Propagation.REQUIRES_NEW,
+			rollbackFor = Exception.class)
     public void actualizarEstadoEjemplar(String EjemplarID, String Estado){
-        //validar existencia de ejemplar
+        //validar existencia de ejemplar	
         String sql = "select count(1) filas from Ejemplares where EjemplarID=?";
         int filas = jdbcTemplate.queryForObject(sql, Integer.class, EjemplarID);
         if (filas != 1){
             throw new RuntimeException("El id del ejemplar no existe.");
         }
         //modificar estado
-        sql = "update Ejemplares set Estado="+Estado+" where EjemplarID=?";
+        sql = "update Ejemplares set Estado='"+Estado+"' where EjemplarID=?";
         jdbcTemplate.update(sql,EjemplarID);
     }
 
     //para administradores
+    @Transactional(propagation = Propagation.REQUIRES_NEW,
+			rollbackFor = Exception.class)
     public void eliminarEjemplar(String EjemplarID){
         //validar existencia de ejemplar
         String sql = "select count(1) filas from Ejemplares where EjemplarID=?";
@@ -68,7 +77,7 @@ public class EjemplarService {
         jdbcTemplate.update(sql, EjemplarID);
         //actualizar la cantidad de ejemplares
         cantidad--;
-        sql = "update Libros set Cantidad"+cantidad+" where LibroID=?";
+        sql = "update Libros set Cantidad = "+cantidad+" where LibroID=?";
         jdbcTemplate.update(sql,LibroID);
 
     }

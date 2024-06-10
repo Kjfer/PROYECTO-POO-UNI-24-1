@@ -1,9 +1,9 @@
-package pe.edu.uni.BIBLIOTECA.service;
+package pe.edu.uni.Biblioteca.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import pe.edu.uni.BIBLIOTECA.dto.LibroDTO;
+import pe.edu.uni.Biblioteca.dto.LibroDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,12 +122,12 @@ public class LibroService {
 
     public List<Map<String,Object>> buscarLibroPorTitulo(String Titulo){
         //verificar que el libro exista
-        String sql = "select count(1) filas from Libros where Titulo=?";
+        String sql = "select count(1) filas from Libros where Título=?";
         int filas = jdbcTemplate.queryForObject(sql, Integer.class, Titulo);
         if (filas == 0){
             throw new RuntimeException("No se encontró resultados al título ingresado.");
         }
-        sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Titulo=?";
+        sql = "select Título,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Título=?";
         return jdbcTemplate.queryForList(sql,Titulo);
     }
 
@@ -138,7 +138,7 @@ public class LibroService {
         if (filas == 0){
             throw new RuntimeException("No se encontró resultados al autor ingresado.");
         }
-        sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Autor=?";
+        sql = "select Título,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Autor=?";
         return jdbcTemplate.queryForList(sql,Autor);
     }
 
@@ -149,7 +149,7 @@ public class LibroService {
         if (filas == 0){
             throw new RuntimeException("No se encontró resultados a la categoría ingresada.");
         }
-        sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Categoria=?";
+        sql = "select Título,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Categoria=?";
         return jdbcTemplate.queryForList(sql,Categoria);
     }
 
@@ -160,7 +160,7 @@ public class LibroService {
         if (filas == 0){
             throw new RuntimeException("No se encontró resultados al año de publicación ingresado.");
         }
-        sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where AñoPublicacion=?";
+        sql = "select Título,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where AñoPublicacion=?";
         return jdbcTemplate.queryForList(sql,AnioPublicacion);
     }
 
@@ -171,7 +171,7 @@ public class LibroService {
         if (filas == 0){
             throw new RuntimeException("No se encontró resultados a la editorial ingresada.");
         }
-        sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Editorial=?";
+        sql = "select Título,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where Editorial=?";
         return jdbcTemplate.queryForList(sql,Editorial);
     }
 
@@ -182,7 +182,7 @@ public class LibroService {
         if (filas == 0){
             throw new RuntimeException("No se encontró resultados al ISBN ingresado.");
         }
-        sql = "select Titulo,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where ISBN=?";
+        sql = "select Título,Autor,Categoria,AñoPublicacion,Editorial,ISBN,Descripcion from Libros where ISBN=?";
         return jdbcTemplate.queryForMap(sql,ISBN);
     }
 

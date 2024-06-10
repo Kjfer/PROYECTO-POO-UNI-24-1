@@ -1,9 +1,9 @@
-package pe.edu.uni.BIBLIOTECA.controller;
+package pe.edu.uni.Biblioteca.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.uni.BIBLIOTECA.service.EjemplarService;
-import pe.edu.uni.BIBLIOTECA.service.FaltasService;
+import pe.edu.uni.Biblioteca.service.EjemplarService;
+import pe.edu.uni.Biblioteca.service.FaltasService;
 
 @RestController
 @RequestMapping("/faltas")
@@ -18,7 +18,7 @@ public class FaltasController {
         return faltasService.obtenerFaltasbyAlumno(CodigoAlumno);
     }
 
-    @PostMapping("/agregar")
+    @PutMapping("/agregar")
     public String agregar(@RequestParam String CodigoAlumno){
         String mensaje;
         try {

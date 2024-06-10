@@ -1,10 +1,10 @@
-package pe.edu.uni.BIBLIOTECA.controller;
+package pe.edu.uni.Biblioteca.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.uni.BIBLIOTECA.dto.PenalizacionesDTO;
-import pe.edu.uni.BIBLIOTECA.dto.registrarPagoPenalizacionDTO;
-import pe.edu.uni.BIBLIOTECA.service.PenalizacionesService;
+import pe.edu.uni.Biblioteca.dto.PenalizacionesDTO;
+import pe.edu.uni.Biblioteca.dto.registrarPagoPenalizacionDTO;
+import pe.edu.uni.Biblioteca.service.PenalizacionesService;
 
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class PenalizacionesController {
         return mensaje;
     }
 
-    @PutMapping("/registarPago")
+    @PutMapping("/registrarPago")
     public String registrarPago(@RequestBody registrarPagoPenalizacionDTO dto){
         String mensaje;
         try {

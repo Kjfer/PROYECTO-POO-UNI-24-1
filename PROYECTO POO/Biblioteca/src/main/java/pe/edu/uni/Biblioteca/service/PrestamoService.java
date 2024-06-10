@@ -1,9 +1,9 @@
-package pe.edu.uni.BIBLIOTECA.service;
+package pe.edu.uni.Biblioteca.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import pe.edu.uni.BIBLIOTECA.dto.PrestamoDTO;
+import pe.edu.uni.Biblioteca.dto.PrestamoDTO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

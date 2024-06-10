@@ -1,4 +1,4 @@
-package pe.edu.uni.BIBLIOTECA.dto;
+package pe.edu.uni.Biblioteca.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,8 @@ import lombok.ToString;
 
 @Data @AllArgsConstructor @NoArgsConstructor @ToString
 public class PenalizacionesDTO {
-    private String CodigoAlumno;
-    private int EmpleadoID;
-    private String Tipo;
-    private double MontoInicial;
+    private String codigoAlumno;
+    private int empleadoID;
+    private String tipo;
+    private double montoInicial;
 }

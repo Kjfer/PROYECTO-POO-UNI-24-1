@@ -1,10 +1,13 @@
-package pe.edu.uni.BIBLIOTECA.service;
+package pe.edu.uni.Biblioteca.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import pe.edu.uni.BIBLIOTECA.dto.PenalizacionesDTO;
-import pe.edu.uni.BIBLIOTECA.dto.registrarPagoPenalizacionDTO;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import pe.edu.uni.Biblioteca.dto.PenalizacionesDTO;
+import pe.edu.uni.Biblioteca.dto.registrarPagoPenalizacionDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -42,11 +45,13 @@ public class PenalizacionesService {
     }
 
     //para administradores
+    @Transactional(propagation = Propagation.REQUIRES_NEW,
+			rollbackFor = Exception.class)
     public PenalizacionesDTO penalizarAlumno(PenalizacionesDTO dto){
         //validar empleado
-        String sql = "select COUNT(1) filas from Empleados E where E.EmpleadoID=?";
-        int filas = jdbcTemplate.queryForObject(sql, Integer.class,dto.getEmpleadoID());
-        if (filas!=1){
+        String sql = "select COUNT(1) filas from Empleados where EmpleadoID = ?";
+        int filas = jdbcTemplate.queryForObject(sql, Integer.class, dto.getEmpleadoID());
+        if (filas != 1){
             throw new RuntimeException("Id de empleado no existe. ");
         }
         //verificar permisos de administrador del empleado
@@ -87,6 +92,8 @@ public class PenalizacionesService {
     }
 
     //para adminitradores
+    @Transactional(propagation = Propagation.REQUIRES_NEW,
+			rollbackFor = Exception.class)
     public registrarPagoPenalizacionDTO registrarPago(registrarPagoPenalizacionDTO dto){
         //validar empleado
         String sql = "select COUNT(1) filas from Empleados E where E.EmpleadoID=?";
